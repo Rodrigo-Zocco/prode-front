@@ -1,7 +1,17 @@
+import { Suspense } from "react";
+import PredictableGames from "@/components/predictable-games";
+
 export default async function Home() {
   return (
-    <div className="bg-black font-bold text-center text-white text-3xl">
-      <h1>Home page</h1>
-    </div>
+    <main>
+      <div>
+        <Suspense
+          fallback={<div className="text-3xl text-blue-500">CARGANDO...</div>}
+        >
+          <PredictableGames />
+        </Suspense>
+      </div>
+      <div></div>
+    </main>
   );
 }

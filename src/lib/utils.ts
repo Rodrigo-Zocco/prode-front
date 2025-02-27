@@ -1,5 +1,4 @@
-"use server";
-import "server-only";
+import { League, MatchStatus } from "./definitions";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -29,4 +28,11 @@ export async function apiCall<T>(
 
   const data: T = await response.json();
   return data;
+}
+
+export function countPredictableMatches(leagues: League[]): number {
+  return leagues
+    .flatMap((league) => league.rounds)
+    .flatMap((round) => round?.matches)
+    .filter((match) => match?.status === MatchStatus.Predictable).length;
 }
