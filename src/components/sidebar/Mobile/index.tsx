@@ -5,13 +5,20 @@ import { League, SidebarLink as SidebarLinkType } from "@/lib/definitions";
 import SidebarLink from "../SidebarLink";
 import LeaguesDropdown from "../LeaguesDropdown";
 import { useSidebar } from "@/context/sidebar-context";
+import { ProdeSession } from "@/lib/auth";
+import LogoutButton from "@/components/logout-button";
+import React from "react";
 
 export default function MobileSidebar({
   links,
   leagues,
+  session,
+  children,
 }: {
   links: SidebarLinkType[];
   leagues: League[];
+  session: ProdeSession | null;
+  children: React.ReactNode;
 }) {
   const { isOpen, closeSidebar } = useSidebar();
 
@@ -41,6 +48,21 @@ export default function MobileSidebar({
           </button>
 
           <div className="flex flex-col items-center justify-center h-full overflow-y-auto py-16">
+            <div className="w-full p-4 text-center">
+              {session ? (
+                <>
+                  <div className="flex flex-col text-custom-white font-bold">
+                    <p>Bienvenido</p>
+                    <p className="text-custom-green-fluor truncate mb-2">
+                      {session.username}
+                    </p>
+                  </div>
+                  <LogoutButton />
+                </>
+              ) : (
+                <>{children}</>
+              )}
+            </div>
             <ul className="text-center mb-6">
               {links.map((link) => (
                 <SidebarLink

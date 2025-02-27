@@ -2,6 +2,7 @@ import { fetchLeagues } from "@/lib/data";
 import Desktop from "./Desktop";
 import Mobile from "./Mobile";
 import { getSession } from "@/lib/auth";
+import LoginButton from "../login-button";
 
 export default async function Sidebar() {
   const session = await getSession();
@@ -40,7 +41,9 @@ export default async function Sidebar() {
   return (
     <>
       <Desktop links={links} leagues={leagues} session={session} />
-      <Mobile links={links} leagues={leagues} />
+      <Mobile links={links} leagues={leagues} session={session}>
+        <LoginButton />
+      </Mobile>
     </>
   );
 }
