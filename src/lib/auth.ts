@@ -10,12 +10,12 @@ const secretKey = process.env.JWT_SECRET!;
 const key = new TextEncoder().encode(secretKey);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function encrypt(payload: any) {
+export async function encrypt(payload: any, expires: Date) {
   //TODO: Set payload type if possible
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1 day from now")
+    .setExpirationTime(expires)
     .sign(key);
 }
 
@@ -68,8 +68,16 @@ export async function login(code: string) {
   }
 
   const oneDayFromNow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const oneHourFromNow = new Date(Date.now() + 1 * 60 * 60 * 1000);
 
-  const session = await encrypt({ ...data, expires: oneDayFromNow });
+  const session = await encrypt(
+    {
+      ...data,
+      expires: oneDayFromNow,
+      aExp: oneHourFromNow,
+    },
+    oneDayFromNow
+  );
 
   (await cookies()).set("session", session, {
     expires: oneDayFromNow,
