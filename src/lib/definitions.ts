@@ -72,4 +72,5 @@ export interface SidebarLink {
   id: number;
   label: string;
   href: string;
+  disabled: boolean;
 }
