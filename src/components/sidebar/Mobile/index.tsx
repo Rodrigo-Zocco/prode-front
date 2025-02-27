@@ -26,29 +26,34 @@ export default function MobileSidebar({
 
       <nav
         id="mobile-sidebar"
-        className={`fixed inset-0 text-white z-50 flex flex-col items-center justify-center
-          transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-0 text-white z-50 md:hidden
+          transform transition-transform duration-300 ease-in-out ${
             isOpen ? "translate-y-0" : "translate-y-full"
           }`}
       >
-        <button
-          onClick={closeSidebar}
-          className="absolute top-4 right-4 text-white hover:text-blue-300 transition-colors"
-          aria-label="Close menu"
-        >
-          <CrossOff className={"text-white"} />
-        </button>
-        <ul className="text-center">
-          {links.map((link) => (
-            <SidebarLink
-              key={link.id}
-              link={link}
-              className={"mb-6"}
-              onMobileClick={closeSidebar}
-            />
-          ))}
-        </ul>
-        <LeaguesDropdown leagues={leagues} />
+        <div className="h-full w-full flex flex-col overflow-hidden">
+          <button
+            onClick={closeSidebar}
+            className="absolute top-4 right-4 text-white hover:text-blue-300 transition-colors"
+            aria-label="Close menu"
+          >
+            <CrossOff className={"text-white"} />
+          </button>
+
+          <div className="flex flex-col items-center justify-center h-full overflow-y-auto py-16">
+            <ul className="text-center mb-6">
+              {links.map((link) => (
+                <SidebarLink
+                  key={link.id}
+                  link={link}
+                  className={"mb-6"}
+                  onMobileClick={closeSidebar}
+                />
+              ))}
+            </ul>
+            <LeaguesDropdown leagues={leagues} />
+          </div>
+        </div>
       </nav>
     </>
   );
