@@ -2,19 +2,10 @@
 import "server-only";
 
 import { cookies } from "next/headers";
-import { decrypt, encrypt } from "./auth";
+import { encrypt, ProdeSession } from "./auth";
 import { apiCall } from "./utils";
 
-export async function refresh() {
-  const cookieStore = await cookies();
-
-  const session = cookieStore.get("session")?.value;
-
-  if (!session) {
-    return null;
-  }
-
-  const parsedSession = await decrypt(session);
+export async function refresh(parsedSession: ProdeSession) {
 
   let response;
 
@@ -26,7 +17,7 @@ export async function refresh() {
       parsedSession.refreshToken
     );
   } catch {
-    return null;
+    return;
   }
 
   const oneHourFromNow = new Date(Date.now() + 1 * 60 * 60 * 1000);
@@ -46,6 +37,4 @@ export async function refresh() {
     expires: cookieExpiration,
     httpOnly: true,
   });
-
-  return  response.accessToken;
 }

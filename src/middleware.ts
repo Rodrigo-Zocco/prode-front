@@ -1,22 +1,20 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { decrypt } from "./lib/auth";
+import { getSession } from "./lib/auth";
 import { refresh } from "./lib/refresh";
 
 export default async function middleware() {
-  const cookie = (await cookies()).get("session")?.value;
-  if (!cookie) {
+  const session = await getSession();
+
+  if (!session) {
     return NextResponse.next();
   }
 
-  const session = await decrypt(cookie);
-
-  const expirationDate = new Date(session.aExp);
+  const accessTokenExpiration = new Date(session.aExp);
   const currentDate = new Date();
 
-  if (expirationDate < currentDate) {
+  if (accessTokenExpiration < currentDate) {
     try {
-      await refresh();
+      await refresh(session);
     } catch {
       return NextResponse.next();
     }

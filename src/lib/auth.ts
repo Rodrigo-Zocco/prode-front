@@ -43,8 +43,9 @@ interface LoginResponse {
 
 //type RefreshResponse = Omit<LoginResponse, "refreshToken">;
 
-interface ProdeSession extends LoginResponse {
+export interface ProdeSession extends LoginResponse {
   expires: Date;
+  aExp: Date;
 }
 
 export async function getSession(): Promise<ProdeSession | null> {
@@ -54,7 +55,11 @@ export async function getSession(): Promise<ProdeSession | null> {
     return null;
   }
 
-  return await decrypt(session);
+  try {
+    return await decrypt(session);
+  } catch {
+    return null;
+  }
 }
 
 export async function login(code: string) {
@@ -89,7 +94,7 @@ export async function logout() {
   const session = await getSession();
 
   if (!session) {
-    return;
+    redirect("/");
   }
 
   (await cookies()).set("session", "", { expires: new Date(0) });
@@ -99,4 +104,5 @@ export async function logout() {
   } catch {
     console.error("GET /auth/logout Error on Logout request");
   }
+  redirect("/");
 }
