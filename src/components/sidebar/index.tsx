@@ -39,7 +39,7 @@ export default async function Sidebar() {
 
   return (
     <>
-      <Desktop links={links} leagues={leagues} />
+      <Desktop links={links} leagues={leagues} session={session} />
       <Mobile links={links} leagues={leagues} />
     </>
   );
