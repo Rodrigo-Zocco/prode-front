@@ -50,24 +50,22 @@ function LeagueItem({ league }: { league: League }) {
   return (
     <li>
       <Link
-        href={`/ligas/${id}`}
+        href={`/ligas/${id}/partidos`}
         onClick={closeSidebar}
         className={`flex items-center px-4 py-2 transition-colors duration-200 border-b border-custom-gray-obscure
           ${
-            `/ligas/${league.id}` === pathName
+            pathName.includes(`/ligas/${league.id}`)
               ? "text-custom-green-slight"
               : "text-white hover:text-custom-green-slight"
           }`}
       >
-        {/* TODO: Should serve images from my API to prevent errors
-          <Image
-            src={logoUrl}
-            width={24}
-            height={24}
-            alt={`Escudo de la liga ${league.name}`}
-            className="mr-2"
-          />
-          */}
+        <img
+          src={league.logoUrl}
+          width={24}
+          height={24}
+          alt={`Escudo de la liga ${league.name}`}
+          className="mr-2"
+        />
         {name}
       </Link>
     </li>

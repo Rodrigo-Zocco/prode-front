@@ -77,7 +77,7 @@ export default function LeaguePredictableGames({ league }: { league: League }) {
           </tbody>
         </table>
         <div>
-          <Link href={`/ligas/${league.id}`}>
+          <Link href={`/ligas/${league.id}/partidos`}>
             <button className="bg-custom-greenblue border border-1 border-custom-black text-custom-white text-xs font-semibold p-2 hover:cursor-pointer">
               Seccion
               <h2>{league.name}</h2>
