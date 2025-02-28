@@ -27,3 +27,15 @@ export async function fetchGames(status?: MatchStatus) {
     throw new Error("Failed to fetch Predictable games data.");
   }
 }
+
+export async function fetchLeagueResults(leagueId: string) {
+  try {
+    const path = `/leagues/${leagueId}/results`;
+
+    const leagueResults = await apiCall<League>("GET", path);
+
+    return leagueResults;
+  } catch {
+    throw new Error("Failed to fetch League results data.");
+  }
+}

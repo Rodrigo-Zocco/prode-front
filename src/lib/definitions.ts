@@ -65,7 +65,7 @@ export interface League {
   country: string;
   logoUrl: string;
   rounds?: Round[];
-  results?: LeagueResults[];
+  leagueResults?: LeagueResults[];
 }
 
 export interface SidebarLink {
