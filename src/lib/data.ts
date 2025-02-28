@@ -23,8 +23,7 @@ export async function fetchGames(status?: MatchStatus) {
 
     const leagues = await apiCall<League[]>("GET", path);
     return leagues;
-  } catch (error) {
-    console.error("API Error:", error);
+  } catch {
     throw new Error("Failed to fetch Predictable games data.");
   }
 }
