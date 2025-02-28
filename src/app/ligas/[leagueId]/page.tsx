@@ -1,13 +1,25 @@
+import LeagueContainer from "@/components/league-container";
+import Header from "@/components/league-container/header";
+import Matches from "@/components/league-container/matches";
+import Results from "@/components/league-container/results";
+
 export default async function Liga({
   params,
 }: {
   params: Promise<{ leagueId: string }>;
 }) {
   const leagueId = (await params).leagueId;
-
+  await new Promise(r => setTimeout(r, 3000));
   return (
-    <div className="bg-black font-bold text-center text-yellow-500 text-3xl">
-      <h1>Liga Id: {leagueId}</h1>
-    </div>
+    <>
+      <LeagueContainer>
+        <Header
+          leagueName={"Superliga Argentina"}
+          logoUrl={"x"}
+        />
+        <Matches />
+        <Results />
+      </LeagueContainer>
+    </>
   );
 }
