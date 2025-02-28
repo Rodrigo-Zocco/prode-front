@@ -1,18 +1,19 @@
-import LeagueLayout from "@/components/league-layout";
+import LeagueSection from "@/components/league-section";
 import Loading from "@/components/ui/loading";
 import { Suspense } from "react";
 
-export default async function Liga({
+export default async function TablaRondas({
   params,
 }: {
   params: Promise<{ leagueId: string }>;
 }) {
   const leagueId = (await params).leagueId;
   return (
-    <main>
+    <>
+      <LeagueSection section={"rounds-table"} />
       <Suspense fallback={<Loading />}>
-        <LeagueLayout leagueId={leagueId} />
+        <div>Table Rounds Component that fetches goes here</div>
       </Suspense>
-    </main>
+    </>
   );
 }
