@@ -19,14 +19,13 @@ export default function SidebarLink({
     <li className={className}>
       <Link
         href={link.href}
-        className={`font-bold 
-          ${link.disabled && "pointer-events-none text-slate-400"}
-          ${
-            link.href === pathName
-              ? "text-custom-green-slight"
-              : "text-white hover:text-custom-green-slight"
-          }
-        ${link.disabled ? "pointer-events-none text-gray-400" : ""}`}
+        className={`font-bold ${
+          link.disabled
+            ? "pointer-events-none text-slate-400"
+            : link.href === pathName
+            ? "text-custom-green-slight"
+            : "text-white hover:text-custom-green-slight"
+        }`}
         aria-disabled={link.disabled}
         onClick={onMobileClick}
         tabIndex={link.disabled ? -1 : undefined}
