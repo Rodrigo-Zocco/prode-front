@@ -50,7 +50,7 @@ function LeagueItem({ league }: { league: League }) {
   return (
     <li>
       <Link
-        href={`/ligas/${id}/partidos`}
+        href={`/ligas/${id}/tabla-general`}
         onClick={closeSidebar}
         className={`flex items-center px-4 py-2 transition-colors duration-200 border-b border-custom-gray-obscure
           ${
