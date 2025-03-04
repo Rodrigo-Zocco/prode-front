@@ -1,7 +1,7 @@
 export default function Premios() {
   return (
-    <div className="bg-black font-bold text-center text-white text-3xl">
-      <h1>Premios page</h1>
-    </div>
+    <h1 className="text-center text-3xl text-custom-white font-bold mt-4">
+      Podrás ver los premios proximamente
+    </h1>
   );
 }

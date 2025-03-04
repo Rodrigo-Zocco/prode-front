@@ -6,8 +6,8 @@ export default async function Museo({
   const userId = (await params).userId;
 
   return (
-    <div className="bg-black font-bold text-center text-yellow-500 text-3xl">
-      <h1>Museo user Id: {userId}</h1>
-    </div>
+    <h1 className="text-center text-3xl text-custom-white font-bold mt-4">
+      Podrás ver tu museo proximamente
+    </h1>
   );
 }
