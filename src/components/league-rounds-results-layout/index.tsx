@@ -2,7 +2,7 @@ import { fetchLeagueRoundsResults } from "@/lib/data";
 import LeagueHeader from "../league-header";
 import RoundsResults from "./rounds-results";
 
-export default async function LeagueRoundsResultsTable({
+export default async function LeagueRoundsResultsLayout({
   leagueId,
 }: {
   leagueId: string;

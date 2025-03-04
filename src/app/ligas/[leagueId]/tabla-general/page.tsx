@@ -1,5 +1,5 @@
 import LeagueSection from "@/components/league-section";
-import LeagueResultsTable from "@/components/league-results-table";
+import LeagueResultsLayout from "@/components/league-results-layout";
 import Loading from "@/components/ui/loading";
 import { Suspense } from "react";
 
@@ -13,7 +13,7 @@ export default async function Page({
     <main>
       <LeagueSection section={"general-table"} />
       <Suspense fallback={<Loading />}>
-        <LeagueResultsTable leagueId={leagueId} />
+        <LeagueResultsLayout leagueId={leagueId} />
       </Suspense>
     </main>
   );

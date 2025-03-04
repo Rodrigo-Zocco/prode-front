@@ -1,43 +1,34 @@
-import { fetchLeagueResults } from "@/lib/data";
+import type { Result } from "@/lib/definitions";
 import LeagueTerms from "../league-terms";
-import LeagueHeader from "../league-header";
 
-const HeadData = ({ text }: { text: string }) => {
-  return (
-    <th className="border-2 border-custom-gray-obscure font-medium px-1">
-      {text}
-    </th>
-  );
-};
-
-export default async function LeagueResultsTable({
-  leagueId,
-}: {
-  leagueId: string;
-}) {
-  const league = await fetchLeagueResults(leagueId);
+export default function ResultsTable({ results }: { results: Result[] }) {
   const headText = ["#", "Usuario", "PTS", "PJ", "PA", "RA"];
 
   return (
-    <div className="max-w-3xl mx-auto mt-12">
-      <LeagueHeader name={league.name} logo={league.logoUrl} />
+    <>
       <table className="w-full">
         <thead>
           <tr className="text-custom-white bg-custom-black">
             {headText.map((text) => (
-              <HeadData key={text} text={text} />
+              <th
+                key={text}
+                className="border-2 border-custom-gray-obscure font-medium px-1"
+              >
+                {text}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody className="font-medium text-center">
-          {league.leagueResults?.length === 0 && (
+          {results.length === 0 && (
             <tr
               className={`border-2 border-custom-gray-obscure bg-custom-gray-slight`}
             >
               <td colSpan={6}>Todavía no hay resultados.</td>
             </tr>
           )}
-          {league.leagueResults?.map((result, idx) => (
+
+          {results.map((result, idx) => (
             <tr
               key={result.id}
               className={`border-2 border-custom-gray-obscure ${
@@ -48,7 +39,7 @@ export default async function LeagueResultsTable({
             >
               <td
                 className={` ${
-                  [1, 2, 3, 4, 5].includes(idx + 1) && "bg-custom-green-light"
+                  [1, 2, 3].includes(idx + 1) && "bg-custom-green-light"
                 }`}
               >
                 {idx + 1}
@@ -73,6 +64,6 @@ export default async function LeagueResultsTable({
         </tbody>
       </table>
       <LeagueTerms />
-    </div>
+    </>
   );
 }

@@ -48,9 +48,10 @@ interface Round {
   id: string;
   description: string;
   matches: Match[];
+  roundResults?: RoundResults[];
 }
 
-interface LeagueResults {
+export interface Result {
   id: string;
   playedGames: number;
   points: number;
@@ -58,6 +59,10 @@ interface LeagueResults {
   allPredicted: number;
   user: User;
 }
+
+type RoundResults = Result;
+
+type LeagueResults = Result;
 
 export interface League {
   id: string;
