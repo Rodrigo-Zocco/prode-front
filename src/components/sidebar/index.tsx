@@ -19,7 +19,7 @@ export default async function Sidebar() {
     {
       id: 2,
       label: "JUGAR",
-      href: "/prode",
+      href: "/prode/partidos",
       disabled: dissableLinks,
     },
     {
