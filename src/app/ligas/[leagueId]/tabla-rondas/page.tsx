@@ -1,3 +1,4 @@
+import LeagueRoundsResultsTable from "@/components/league-rounds-results-table";
 import LeagueSection from "@/components/league-section";
 import Loading from "@/components/ui/loading";
 import { Suspense } from "react";
@@ -12,7 +13,7 @@ export default async function TablaRondas({
     <>
       <LeagueSection section={"rounds-table"} />
       <Suspense fallback={<Loading />}>
-        <div>Table Rounds Component that fetches goes here</div>
+        <LeagueRoundsResultsTable leagueId={leagueId} />
       </Suspense>
     </>
   );

@@ -39,3 +39,15 @@ export async function fetchLeagueResults(leagueId: string) {
     throw new Error("Failed to fetch League results data.");
   }
 }
+
+export async function fetchLeagueRoundsResults(leagueId: string) {
+  try {
+    const path = `/leagues/${leagueId}/rounds-results`;
+
+    const leagueRoundsResults = await apiCall<League>("GET", path);
+
+    return leagueRoundsResults;
+  } catch {
+    throw new Error("Failed to fetch League Rounds results data.");
+  }
+}
