@@ -1,6 +1,6 @@
 import { fetchLeagueRoundsResults } from "@/lib/data";
-import LeagueTerms from "../league-terms";
 import LeagueHeader from "../league-header";
+import RoundsResults from "./rounds-results";
 
 export default async function LeagueRoundsResultsTable({
   leagueId,
@@ -12,7 +12,7 @@ export default async function LeagueRoundsResultsTable({
   return (
     <div className="max-w-3xl mx-auto mt-12">
       <LeagueHeader name={league.name} logo={league.logoUrl} />
-      <LeagueTerms />
+      <RoundsResults league={league} />
     </div>
   );
 }
