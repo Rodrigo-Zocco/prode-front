@@ -1,5 +1,6 @@
 import { League } from "@/lib/definitions";
 import CreatePredictionForm from "./create-prediction-form";
+import EditPredictionForm from "./edit-prediction-form";
 
 export default function LeaguePredictions({ league }: { league: League }) {
   return (
@@ -34,9 +35,7 @@ export default function LeaguePredictions({ league }: { league: League }) {
           {league.rounds?.flatMap((round) =>
             round.matches.map((match) =>
               match.predictions![0] ? (
-                <tr key={match.id}>
-                  <td>Editable</td>
-                </tr>
+                <EditPredictionForm key={match.id} match={match} />
               ) : (
                 <CreatePredictionForm key={match.id} match={match} />
               )

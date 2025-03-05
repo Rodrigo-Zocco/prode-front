@@ -8,9 +8,8 @@ import { apiCall } from "./utils";
 
 export type State = {
   errors?: {
-    customerId?: string[];
-    amount?: string[];
-    status?: string[];
+    homeTeamScore?: string[];
+    awayTeamScore?: string[];
   };
   message?: string | null;
 };
@@ -67,4 +66,37 @@ export async function createPrediction(
   }
 
   redirect("/prode/partidos");
+}
+
+export async function editPrediction(
+  predictionId: string,
+  prevState: State,
+  formData: FormData
+) {
+  const session = await getSession();
+
+  const validatedFields = CreatePrediction.safeParse({
+    homeTeamScore: formData.get("homeTeamScore"),
+    awayTeamScore: formData.get("awayTeamScore"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Edit Prediction.",
+    };
+  }
+
+  const { data } = validatedFields;
+  const payload = { predictionId, ...data };
+
+  try {
+    await apiCall("PUT", "/predictions", payload, session?.accessToken);
+  } catch {
+    return {
+      message: "Api Error: Failed to Create Prediction.",
+    };
+  }
+
+    redirect("/prode/partidos");
 }
