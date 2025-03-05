@@ -1,10 +1,10 @@
 "use server";
 //import "server-only";
 
-import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getSession } from "./auth";
 import { apiCall } from "./utils";
+import { revalidatePath } from "next/cache";
 
 export type State = {
   errors?: {
@@ -65,7 +65,10 @@ export async function createPrediction(
     };
   }
 
-  redirect("/prode/partidos");
+  revalidatePath("/prode/partidos");
+  return {
+    message: "Prediction created successfully.",
+  };
 }
 
 export async function editPrediction(
@@ -98,5 +101,8 @@ export async function editPrediction(
     };
   }
 
-    redirect("/prode/partidos");
+  revalidatePath("/prode/partidos");
+  return {
+    message: "Prediction Edited successfully.",
+  };
 }

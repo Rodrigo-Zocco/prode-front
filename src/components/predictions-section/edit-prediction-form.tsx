@@ -13,7 +13,10 @@ export default function EditPredictionForm({ match }: { match: Match }) {
   );
   const initialState = { message: null, errors: {} };
   // TODO: Fix the action state error below
-  const [state, dispatch] = useActionState(editPredictionWithId, initialState);
+  const [state, dispatch, isPending] = useActionState(
+    editPredictionWithId,
+    initialState
+  );
 
   return (
     <tr>
@@ -81,9 +84,13 @@ export default function EditPredictionForm({ match }: { match: Match }) {
       </td>
       <td className="px-1">
         <button
-          className="text-custom-black bg-custom-yellow-light border-custom-green-fluor text-sm font-semibold border rounded-lg p-2"
+          className={`text-custom-black border-custom-green-fluor text-sm font-semibold border rounded-lg p-2 ${
+            isPending ? "bg-gray-600" : "bg-custom-yellow-light"
+          }`}
           type="submit"
           form={`edit-prediction-form-${match.id}`}
+          aria-disabled={isPending}
+          disabled={isPending}
         >
           Editar
         </button>

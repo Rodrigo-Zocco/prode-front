@@ -9,7 +9,7 @@ import { useActionState } from "react";
 export default function CreatePredictionForm({ match }: { match: Match }) {
   const createPredictionWithMatchId = createPrediction.bind(null, match.id);
   const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useActionState(
+  const [state, dispatch, isPending] = useActionState(
     createPredictionWithMatchId, //TODO: If possible, remove this error
     initialState
   );
@@ -80,9 +80,13 @@ export default function CreatePredictionForm({ match }: { match: Match }) {
       </td>
       <td className="px-1">
         <button
-          className="text-custom-white bg-custom-green-alive border-custom-green-fluor text-sm font-semibold border rounded-lg p-2"
+          className={`text-custom-white border-custom-green-fluor text-sm font-semibold border rounded-lg p-2 ${
+            isPending ? "bg-gray-600" : "bg-custom-green-alive"
+          }`}
           type="submit"
           form={`prediction-form-${match.id}`}
+          aria-disabled={isPending}
+          disabled={isPending}
         >
           Crear
         </button>
