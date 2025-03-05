@@ -1,3 +1,4 @@
+import { getSession } from "./auth";
 import { League, MatchStatus } from "./definitions";
 import { apiCall } from "./utils";
 
@@ -49,5 +50,22 @@ export async function fetchLeagueRoundsResults(leagueId: string) {
     return leagueRoundsResults;
   } catch {
     throw new Error("Failed to fetch League Rounds results data.");
+  }
+}
+
+export async function fetchUserPredictions() {
+  const session = await getSession();
+
+  try {
+    const path = `/predictions`;
+    const userPredictions = await apiCall<League[]>(
+      "GET",
+      path,
+      undefined,
+      session?.accessToken
+    );
+    return userPredictions;
+  } catch {
+    throw new Error("Failed to fetch User predictions data.");
   }
 }

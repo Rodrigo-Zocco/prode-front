@@ -34,7 +34,7 @@ interface User {
   awards: Award[];
 }
 
-interface Match {
+export interface Match {
   id: string;
   status: MatchStatus;
   homeTeamScore?: number;
@@ -42,6 +42,14 @@ interface Match {
   highlighted: boolean;
   homeTeam: Team;
   awayTeam: Team;
+  predictions?: Prediction[];
+}
+
+interface Prediction {
+  id: string;
+  homeTeamScore: number;
+  awayTeamScore: number;
+  matchId: string;
 }
 
 interface Round {
