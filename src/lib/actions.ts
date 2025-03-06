@@ -10,14 +10,6 @@ import {
   CreatePredictionFormData,
 } from "./types";
 
-export type State = {
-  errors?: {
-    homeTeamScore?: string[];
-    awayTeamScore?: string[];
-  };
-  message?: string | null;
-};
-
 const createPredicctionError = "Mínimo 0 y Máximo 20 goles.";
 
 const CreatePrediction = z.object({
@@ -82,36 +74,39 @@ export async function createPrediction(
 
 export async function editPrediction(
   predictionId: string,
-  prevState: State,
+  prevState: CreatePredictionActionResponse | null,
   formData: FormData
-) {
-  const session = await getSession();
-
-  const validatedFields = CreatePrediction.safeParse({
-    homeTeamScore: formData.get("homeTeamScore"),
-    awayTeamScore: formData.get("awayTeamScore"),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Edit Prediction.",
-    };
-  }
-
-  const { data } = validatedFields;
-  const payload = { predictionId, ...data };
-
+): Promise<CreatePredictionActionResponse> {
   try {
+    const rawData: CreatePredictionFormData = {
+      homeTeamScore: formData.get("homeTeamScore") as unknown as number,
+      awayTeamScore: formData.get("awayTeamScore") as unknown as number,
+    };
+
+    const validatedData = CreatePrediction.safeParse(rawData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        errors: validatedData.error.flatten().fieldErrors,
+        message: "Missing Fields. Failed to Edit Prediction.",
+      };
+    }
+
+    const { data } = validatedData;
+    const payload = { predictionId, ...data };
+
+    const session = await getSession();
     await apiCall("PUT", "/predictions", payload, session?.accessToken);
+    revalidatePath("/prode/partidos");
+    return {
+      success: true,
+      message: "Prediction Edited successfully.",
+    };
   } catch {
     return {
+      success: true,
       message: "Api Error: Failed to Create Prediction.",
     };
   }
-
-  revalidatePath("/prode/partidos");
-  return {
-    message: "Prediction Edited successfully.",
-  };
 }

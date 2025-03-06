@@ -5,14 +5,18 @@ import { Match } from "@/lib/definitions";
 import { useActionState } from "react";
 import Star from "../icons/Star";
 import StarOff from "../icons/StarOff";
+import { CreatePredictionActionResponse } from "@/lib/types";
 
 export default function EditPredictionForm({ match }: { match: Match }) {
   const editPredictionWithId = editPrediction.bind(
     null,
     match.predictions![0].id
   );
-  const initialState = { message: null, errors: {} };
-  // TODO: Fix the action state error below
+  const initialState: CreatePredictionActionResponse = {
+    success: false,
+    message: "",
+  };
+
   const [state, dispatch, isPending] = useActionState(
     editPredictionWithId,
     initialState
@@ -40,7 +44,7 @@ export default function EditPredictionForm({ match }: { match: Match }) {
             defaultValue={match.predictions![0].homeTeamScore}
             aria-label={`${match.homeTeam.name} score`}
           />
-          {state.errors?.homeTeamScore && (
+          {state?.errors?.homeTeamScore && (
             <p className="text-red-500 text-xs mt-1">
               {state.errors.homeTeamScore[0]}
             </p>
