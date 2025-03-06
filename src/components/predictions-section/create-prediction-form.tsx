@@ -5,12 +5,16 @@ import Star from "../icons/Star";
 import StarOff from "../icons/StarOff";
 import { createPrediction } from "@/lib/actions";
 import { useActionState } from "react";
+import { CreatePredictionActionResponse } from "@/lib/types";
 
 export default function CreatePredictionForm({ match }: { match: Match }) {
   const createPredictionWithMatchId = createPrediction.bind(null, match.id);
-  const initialState = { message: null, errors: {} };
-  const [state, dispatch, isPending] = useActionState(
-    createPredictionWithMatchId, //TODO: If possible, remove this error
+  const initialState: CreatePredictionActionResponse = {
+    success: false,
+    message: "",
+  };
+  const [state, action, isPending] = useActionState(
+    createPredictionWithMatchId,
     initialState
   );
 
@@ -28,15 +32,15 @@ export default function CreatePredictionForm({ match }: { match: Match }) {
         </div>
       </td>
       <td className="text-center border border-custom-gray-obscure bg-custom-white">
-        <form id={`prediction-form-${match.id}`} action={dispatch}>
+        <form id={`prediction-form-${match.id}`} action={action}>
           <input
             className="max-w-8 text-center"
             type="number"
             name="homeTeamScore"
-            defaultValue={0}
+            defaultValue={state?.inputs?.homeTeamScore || 0}
             aria-label={`${match.homeTeam.name} score`}
           />
-          {state.errors?.homeTeamScore && (
+          {state?.errors?.homeTeamScore && (
             <p className="text-red-500 text-xs mt-1">
               {state.errors.homeTeamScore[0]}
             </p>
@@ -48,11 +52,11 @@ export default function CreatePredictionForm({ match }: { match: Match }) {
           className="max-w-8 text-center"
           type="number"
           name="awayTeamScore"
-          defaultValue={0}
+          defaultValue={state?.inputs?.awayTeamScore || 0}
           form={`prediction-form-${match.id}`}
           aria-label={`${match.awayTeam.name} score`}
         />
-        {state.errors?.awayTeamScore && (
+        {state?.errors?.awayTeamScore && (
           <p className="text-red-500 text-xs mt-1">
             {state.errors.awayTeamScore[0]}
           </p>
@@ -91,17 +95,6 @@ export default function CreatePredictionForm({ match }: { match: Match }) {
           Crear
         </button>
       </td>
-
-      {/*state.message && (
-        <td
-          className="border border-custom-gray-obscure bg-custom-white"
-          colSpan={5}
-        >
-          <p className={state.errors ? "text-red-500" : "text-green-500"}>
-            {state.message}
-          </p>
-        </td>
-      )*/}
     </tr>
   );
 }

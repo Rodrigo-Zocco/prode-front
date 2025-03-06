@@ -5,6 +5,10 @@ import { z } from "zod";
 import { getSession } from "./auth";
 import { apiCall } from "./utils";
 import { revalidatePath } from "next/cache";
+import {
+  CreatePredictionActionResponse,
+  CreatePredictionFormData,
+} from "./types";
 
 export type State = {
   errors?: {
@@ -37,38 +41,43 @@ const CreatePrediction = z.object({
 
 export async function createPrediction(
   matchId: string,
-  prevState: State,
+  prevState: CreatePredictionActionResponse | null,
   formData: FormData
-) {
-  const session = await getSession();
-
-  const validatedFields = CreatePrediction.safeParse({
-    homeTeamScore: formData.get("homeTeamScore"),
-    awayTeamScore: formData.get("awayTeamScore"),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Create Prediction.",
-    };
-  }
-
-  const { data } = validatedFields;
-  const payload = { matchId, ...data };
-
+): Promise<CreatePredictionActionResponse> {
   try {
+    const rawData: CreatePredictionFormData = {
+      homeTeamScore: formData.get("homeTeamScore") as unknown as number,
+      awayTeamScore: formData.get("awayTeamScore") as unknown as number,
+    };
+
+    const validatedData = CreatePrediction.safeParse(rawData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        message: "Please fix the errors",
+        errors: validatedData.error.flatten().fieldErrors,
+        inputs: rawData,
+      };
+    }
+
+    const { data } = validatedData;
+    const payload = { matchId, ...data };
+
+    const session = await getSession();
     await apiCall("POST", "/predictions", payload, session?.accessToken);
+    revalidatePath("/prode/partidos");
+
+    return {
+      success: true,
+      message: "Prediction saved successfully!",
+    };
   } catch {
     return {
-      message: "Api Error: Failed to Create Prediction.",
+      success: false,
+      message: "An unexpected error occurred",
     };
   }
-
-  revalidatePath("/prode/partidos");
-  return {
-    message: "Prediction created successfully.",
-  };
 }
 
 export async function editPrediction(
