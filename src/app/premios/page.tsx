@@ -1,7 +1,23 @@
-export default function Premios() {
+import AllAwardsLayout from "@/components/all-awards-layout";
+import Loading from "@/components/ui/loading";
+import { Suspense } from "react";
+
+export default async function Premios({
+  searchParams,
+}: {
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const currentPage = Number(params?.page) || 1;
+
   return (
-    <h1 className="text-center text-3xl text-custom-white font-bold mt-4">
-      Podrás ver los premios proximamente
-    </h1>
+    <main>
+      <Suspense fallback={<Loading />}>
+        <AllAwardsLayout currentPage={currentPage} />
+      </Suspense>
+    </main>
   );
 }

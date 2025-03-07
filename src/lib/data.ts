@@ -1,5 +1,5 @@
 import { getSession } from "./auth";
-import { League, MatchStatus } from "./definitions";
+import { Award, League, MatchStatus, Pagination } from "./definitions";
 import { apiCall } from "./utils";
 
 // TODO: May be possible to catch N hours all api calls here (it depends case by case)
@@ -67,5 +67,21 @@ export async function fetchUserPredictions() {
     return userPredictions;
   } catch {
     throw new Error("Failed to fetch User predictions data.");
+  }
+}
+
+export async function fetchAwards(page: number) {
+  try {
+    const path = `/awards?page=${page}`;
+
+    const awards = await apiCall<{ awards: Award[]; pagination: Pagination }>(
+      "GET",
+      path
+    );
+
+    return awards;
+  } catch (error) {
+    console.error("API Error:", error);
+    throw new Error("Failed to fetch Awards data.");
   }
 }
