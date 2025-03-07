@@ -1,13 +1,25 @@
+import MuseumLayout from "@/components/museum-layout";
+import Loading from "@/components/ui/loading";
+import { Suspense } from "react";
+
 export default async function Museo({
   params,
+  searchParams,
 }: {
   params: Promise<{ userId: string }>;
+  searchParams: Promise<{ page?: number }>;
 }) {
-  const userId = (await params).userId;
+  const parameters = await params;
+  const searchParameters = await searchParams;
+
+  const userId = parameters.userId;
+  const currentPage = Number(searchParameters?.page) || 1;
 
   return (
-    <h1 className="text-center text-3xl text-custom-white font-bold mt-4">
-      Podrás ver tu museo proximamente
-    </h1>
+    <main>
+      <Suspense fallback={<Loading />}>
+        <MuseumLayout userId={userId} currentPage={currentPage} />
+      </Suspense>
+    </main>
   );
 }

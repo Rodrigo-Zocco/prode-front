@@ -85,3 +85,19 @@ export async function fetchAwards(page: number) {
     throw new Error("Failed to fetch Awards data.");
   }
 }
+
+export async function fetchUserAwards(userId: string, page: number) {
+  try {
+    const path = `/awards/${userId}?page=${page}`;
+
+    const awards = await apiCall<{ awards: Award[]; pagination: Pagination }>(
+      "GET",
+      path
+    );
+
+    return awards;
+  } catch (error) {
+    console.error("API Error:", error);
+    throw new Error("Failed to fetch User Awards data.");
+  }
+}
