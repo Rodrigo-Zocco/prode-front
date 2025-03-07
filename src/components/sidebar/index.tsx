@@ -24,13 +24,13 @@ export default async function Sidebar() {
     },
     {
       id: 3,
-      label: "MUSEO",
+      label: "MI MUSEO",
       href: `/museos/${session?.userId ? session.userId : "none"}`,
       disabled: dissableLinks,
     },
     {
       id: 4,
-      label: "SALON DE LA FAMA",
+      label: "TROFEOS",
       href: "/premios",
       disabled: false,
     },

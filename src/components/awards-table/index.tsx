@@ -5,7 +5,7 @@ export default function AwardsTable({ awards }: { awards: AwardType[] }) {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl my-4 text-custom-green-fluor font-bold text-center">
-        PREMIOS
+        TROFEOS
       </h1>
       <table className="w-full border-collapse border-2 border-custom-gray-obscure">
         <thead>
