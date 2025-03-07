@@ -15,16 +15,6 @@ export default function ProdeSection({ section }: { section: ProdeSection }) {
       >
         Partidos
       </Link>
-      <Link
-        href={"historial"}
-        className={`flex-1 hover:cursor-pointer border-b-2 ${
-          section === "historial"
-            ? `text-custom-green-fluor border-custom-green-fluor`
-            : "border-custom-gray-obscure"
-        }`}
-      >
-        Historial
-      </Link>
     </div>
   );
 }
