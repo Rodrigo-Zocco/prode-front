@@ -17,12 +17,12 @@ interface Team {
   logoUrl: string;
 }
 
-interface Award {
+export interface Award {
   id: number;
   name: string;
   description: string;
   logoUrl: string;
-  createdAt: Date;
+  user: User;
 }
 
 interface User {
@@ -86,4 +86,12 @@ export interface SidebarLink {
   label: string;
   href: string;
   disabled: boolean;
+}
+
+export interface Pagination {
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
 }
