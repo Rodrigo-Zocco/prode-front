@@ -12,7 +12,7 @@ export default async function PredictableGames() {
 
   return (
     <>
-      <h1 className="text-3xl text-custom-green-fluor font-bold text-center">
+      <h1 className="text-3xl my-4 text-custom-green-fluor font-bold text-center">
         {predictableGamesCount} PARTIDOS DISPONIBLES
       </h1>
 

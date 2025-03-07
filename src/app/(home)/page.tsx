@@ -5,12 +5,9 @@ import Loading from "@/components/ui/loading";
 export default async function Home() {
   return (
     <main>
-      <div>
-        <Suspense fallback={<Loading />}>
-          <PredictableGames />
-        </Suspense>
-      </div>
-      <div></div>
+      <Suspense fallback={<Loading />}>
+        <PredictableGames />
+      </Suspense>
     </main>
   );
 }

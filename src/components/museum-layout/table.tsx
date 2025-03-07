@@ -7,7 +7,7 @@ export default function MuseumTable({ awards }: { awards: AwardType[] }) {
       <h1 className="text-3xl my-4 text-custom-green-fluor font-bold text-center break-all">
         {awards[0]?.user.username
           ? `TROFEOS DE ${awards[0]?.user.username.toUpperCase()}`
-          : `No hay premios para mostrar`}
+          : `NO HAY PREMIOS PARA MOSTRAR`}
       </h1>
       <table className="w-full border-collapse border-2 border-custom-gray-obscure">
         <thead>
