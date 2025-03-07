@@ -6,7 +6,6 @@ export default async function Premios({
   searchParams,
 }: {
   searchParams?: Promise<{
-    query?: string;
     page?: string;
   }>;
 }) {
