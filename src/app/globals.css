@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body,
-#mobile-sidebar {
+#mobile-sidebar,
+#background-prode {
   background-image: url("/fondo.jpg");
   background-repeat: repeat;
   background-size: auto;

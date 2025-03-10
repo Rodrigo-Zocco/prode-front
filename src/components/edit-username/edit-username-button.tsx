@@ -10,7 +10,7 @@ export default function EditUsernameButton() {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="p-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        className="mt-4 ml-2 text-custom-white bg-custom-green-alive border-custom-green-fluor text-lg font-semibold border-2 rounded-lg px-2"
       >
         Cambiar
       </button>
