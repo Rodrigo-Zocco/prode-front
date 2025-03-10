@@ -30,6 +30,12 @@ export default async function Sidebar() {
     },
     {
       id: 4,
+      label: "CONFIGURACION",
+      href: `/configuracion`,
+      disabled: dissableLinks,
+    },
+    {
+      id: 5,
       label: "TROFEOS",
       href: "/premios",
       disabled: false,

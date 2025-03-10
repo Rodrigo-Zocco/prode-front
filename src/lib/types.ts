@@ -11,3 +11,16 @@ export interface CreatePredictionActionResponse {
   };
   inputs?: CreatePredictionFormData;
 }
+
+export interface UpdateUserFormData {
+  username: string;
+}
+
+export interface UpdateUserActionResponse {
+  success: boolean;
+  message: string;
+  errors?: {
+    [K in keyof UpdateUserFormData]?: string[];
+  };
+  inputs?: UpdateUserFormData;
+}

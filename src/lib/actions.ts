@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 import {
   CreatePredictionActionResponse,
   CreatePredictionFormData,
+  UpdateUserActionResponse,
+  UpdateUserFormData,
 } from "./types";
 
 const createPredicctionError = "Mínimo 0 y Máximo 20 goles.";
@@ -107,6 +109,55 @@ export async function editPrediction(
     return {
       success: true,
       message: "Api Error: Failed to Create Prediction.",
+    };
+  }
+}
+
+const UpdateUserSchema = z
+  .object({
+    username: z
+      .string()
+      .min(8, "Nombre de usuario debe tener 8 caracteres como minimo.")
+      .max(50, "Nombre de usuario debe tener 50 caracteres como maximo.")
+      .regex(
+        /^[a-zA-Z0-9._-]+$/,
+        "Nombre de usuario debe contener letras, numeros, puntos y guiones"
+      ),
+  })
+  .strict();
+
+export async function updateUser(
+  prevState: UpdateUserActionResponse | null,
+  formData: FormData
+): Promise<UpdateUserActionResponse> {
+  try {
+    const rawData: UpdateUserFormData = {
+      username: formData.get("username") as string,
+    };
+
+    const validatedData = UpdateUserSchema.safeParse(rawData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        errors: validatedData.error.flatten().fieldErrors,
+        message: "Corrige los errores.",
+      };
+    }
+
+    const { data: payload } = validatedData;
+
+    const session = await getSession();
+    await apiCall("PUT", "/users", payload, session?.accessToken);
+    //revalidatePath("/configuracion");
+    return {
+      success: true,
+      message: "Usuario actualizado con exito.",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Failed to update user.",
     };
   }
 }
