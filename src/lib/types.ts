@@ -24,3 +24,18 @@ export interface UpdateUserActionResponse {
   };
   inputs?: UpdateUserFormData;
 }
+
+export interface AddLeagueFormData {
+  name: string;
+  country: string;
+  logoUrl: string;
+}
+
+export interface AddLeagueActionResponse {
+  success: boolean;
+  message: string;
+  errors?: {
+    [K in keyof AddLeagueFormData]?: string[];
+  };
+  inputs?: AddLeagueFormData;
+}

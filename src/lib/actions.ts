@@ -6,6 +6,8 @@ import { getSession } from "./auth";
 import { apiCall } from "./utils";
 import { revalidatePath } from "next/cache";
 import {
+  AddLeagueActionResponse,
+  AddLeagueFormData,
   CreatePredictionActionResponse,
   CreatePredictionFormData,
   UpdateUserActionResponse,
@@ -158,6 +160,52 @@ export async function updateUser(
     return {
       success: false,
       message: "Failed to update user.",
+    };
+  }
+}
+
+const AddLeagueSchema = z
+  .object({
+    name: z.string(),
+    country: z.string(),
+    logoUrl: z.string(),
+  })
+  .strict();
+
+export async function addLeague(
+  prevState: AddLeagueActionResponse | null,
+  formData: FormData
+): Promise<AddLeagueActionResponse> {
+  try {
+    const rawData: AddLeagueFormData = {
+      name: formData.get("name") as string,
+      country: formData.get("country") as string,
+      logoUrl: formData.get("logoUrl") as string,
+    };
+
+    const validatedData = AddLeagueSchema.safeParse(rawData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        errors: validatedData.error.flatten().fieldErrors,
+        message: "Corrige los errores.",
+      };
+    }
+
+    const { data: payload } = validatedData;
+
+    const session = await getSession();
+    await apiCall("POST", "/leagues", payload, session?.accessToken);
+    revalidatePath("/administracion/ligas");
+    return {
+      success: true,
+      message: "Liga agregada con exito.",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Ocurrió un error al agregar una liga.",
     };
   }
 }
