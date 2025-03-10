@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarLink as SidebarLinkType } from "@/lib/definitions";
+import Shield from "../icons/Shield";
 
 export default function SidebarLink({
   link,
@@ -15,11 +16,13 @@ export default function SidebarLink({
 }) {
   const pathName = usePathname();
 
+  const adminLabels = ["LIGAS Y RONDAS", "EQUIPOS Y RESULTADOS"];
+
   return (
     <li className={className}>
       <Link
         href={link.href}
-        className={`font-bold ${
+        className={`font-bold justify-center md:justify-normal flex ${
           link.disabled
             ? "pointer-events-none text-slate-400"
             : link.href === pathName
@@ -30,7 +33,10 @@ export default function SidebarLink({
         onClick={onMobileClick}
         tabIndex={link.disabled ? -1 : undefined}
       >
-        {link.label}
+        {adminLabels.includes(link.label) && (
+          <Shield className={"text-custom-yellow-light mr-1"} />
+        )}
+        {link.label}{" "}
       </Link>
     </li>
   );

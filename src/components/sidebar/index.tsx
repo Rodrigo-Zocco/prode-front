@@ -42,6 +42,23 @@ export default async function Sidebar() {
     },
   ];
 
+  if (session?.role === "administrator") {
+    links.push(
+      {
+        id: 6,
+        label: "LIGAS Y RONDAS",
+        href: "/administracion/ligas",
+        disabled: false,
+      },
+      {
+        id: 7,
+        label: "EQUIPOS Y RESULTADOS",
+        href: "/administracion/equipos",
+        disabled: false,
+      }
+    );
+  }
+
   const leagues = await fetchLeagues();
 
   return (
