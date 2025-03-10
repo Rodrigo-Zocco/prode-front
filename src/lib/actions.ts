@@ -151,7 +151,6 @@ export async function updateUser(
 
     const session = await getSession();
     await apiCall("PUT", "/users", payload, session?.accessToken);
-    //revalidatePath("/configuracion");
     return {
       success: true,
       message: "Usuario actualizado con exito.",
@@ -207,5 +206,20 @@ export async function addLeague(
       success: false,
       message: "Ocurrió un error al agregar una liga.",
     };
+  }
+}
+
+export async function deleteLeague(leagueId: string) {
+  try {
+    const session = await getSession();
+    await apiCall(
+      "DELETE",
+      `/leagues/${leagueId}`,
+      undefined,
+      session?.accessToken
+    );
+    revalidatePath("/administracion/ligas");
+  } catch {
+    console.error("Fallo al eliminar una liga");
   }
 }

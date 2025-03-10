@@ -1,4 +1,5 @@
 import { League } from "@/lib/definitions";
+import { DeleteLeague } from "./buttons";
 
 export default function LeaguesTable({ leagues }: { leagues: League[] }) {
   return (
@@ -10,6 +11,7 @@ export default function LeaguesTable({ leagues }: { leagues: League[] }) {
             <th className="border border-custom-gray-obscure">Logo</th>
             <th className="border border-custom-gray-obscure">Nombre</th>
             <th className="border border-custom-gray-obscure">País</th>
+            <th className="border border-custom-gray-obscure">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +39,9 @@ export default function LeaguesTable({ leagues }: { leagues: League[] }) {
                 </td>
                 <td className="border border-custom-gray-obscure p-2">
                   {league.country}
+                </td>
+                <td className="border border-custom-gray-obscure p-2">
+                  <DeleteLeague key={league.id} id={league.id} />
                 </td>
               </tr>
             ))
