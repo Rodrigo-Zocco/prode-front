@@ -327,3 +327,18 @@ export async function addTeam(
     };
   }
 }
+
+export async function deleteTeam(teamId: number) {
+  try {
+    const session = await getSession();
+    await apiCall(
+      "DELETE",
+      `/teams/${teamId}`,
+      undefined,
+      session?.accessToken
+    );
+    revalidatePath("/administracion/equipos");
+  } catch {
+    console.error("Fallo al eliminar un equipo.");
+  }
+}

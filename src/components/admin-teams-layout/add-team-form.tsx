@@ -13,8 +13,7 @@ export default function AddTeamForm() {
   const [state, action, isPending] = useActionState(addTeam, initialState);
 
   return (
-    <>
-      {" "}
+    <div>
       <h1 className="text-xl text-custom-yellow-light font-bold text-center">
         Agregar un equipo
       </h1>
@@ -83,6 +82,6 @@ export default function AddTeamForm() {
           {isPending ? "Cargando..." : `Agregar Equipo`}
         </button>
       </form>
-    </>
+    </div>
   );
 }

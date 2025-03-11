@@ -11,7 +11,7 @@ export enum MatchStatus {
   Waiting = "waiting",
 }
 
-interface Team {
+export interface Team {
   id: number;
   name: string;
   logoUrl: string;
