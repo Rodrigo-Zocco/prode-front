@@ -52,3 +52,17 @@ export interface AddRoundActionResponse {
   };
   inputs?: AddRoundFormData;
 }
+
+export interface AddTeamFormData {
+  name: string;
+  logoUrl: string;
+}
+
+export interface AddTeamActionResponse {
+  success: boolean;
+  message: string;
+  errors?: {
+    [K in keyof AddTeamFormData]?: string[];
+  };
+  inputs?: AddTeamFormData;
+}

@@ -10,6 +10,8 @@ import {
   AddLeagueFormData,
   AddRoundActionResponse,
   AddRoundFormData,
+  AddTeamActionResponse,
+  AddTeamFormData,
   CreatePredictionActionResponse,
   CreatePredictionFormData,
   UpdateUserActionResponse,
@@ -279,5 +281,49 @@ export async function deleteRound(roundId: string) {
     revalidatePath("/administracion/ligas");
   } catch {
     console.error("Fallo al eliminar una ronda.");
+  }
+}
+
+const AddTeamSchema = z
+  .object({
+    name: z.string(),
+    logoUrl: z.string(),
+  })
+  .strict();
+
+export async function addTeam(
+  prevState: AddTeamActionResponse | null,
+  formData: FormData
+): Promise<AddTeamActionResponse> {
+  try {
+    const rawData: AddTeamFormData = {
+      name: formData.get("name") as string,
+      logoUrl: formData.get("logoUrl") as string,
+    };
+
+    const validatedData = AddTeamSchema.safeParse(rawData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        errors: validatedData.error.flatten().fieldErrors,
+        message: "Corrige los errores.",
+      };
+    }
+
+    const { data: payload } = validatedData;
+
+    const session = await getSession();
+    await apiCall("POST", "/teams", payload, session?.accessToken);
+    revalidatePath("/administracion/equipos");
+    return {
+      success: true,
+      message: "Equipo agregado con exito.",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Ocurrió un error al agregar el equipo.",
+    };
   }
 }
