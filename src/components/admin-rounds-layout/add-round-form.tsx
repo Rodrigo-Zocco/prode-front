@@ -34,6 +34,11 @@ export default function AddRoundForm({ leagueId }: { leagueId: string }) {
           required
           minLength={4}
         />
+        {state.errors?.description && (
+          <p className="text-red-500 text-xs mt-1 font-bold">
+            {state.errors.description[0]}
+          </p>
+        )}
       </div>
       {state?.message && !isPending && (
         <p

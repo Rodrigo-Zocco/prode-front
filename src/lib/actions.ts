@@ -236,7 +236,7 @@ export async function createRound(
       description: formData.get("description") as unknown as string,
     };
 
-    const isValid = rawData.description.length > 4;
+    const isValid = rawData.description.length >= 4;
 
     if (!isValid) {
       return {
@@ -264,5 +264,20 @@ export async function createRound(
       success: false,
       message: "Algo ha salido mal.",
     };
+  }
+}
+
+export async function deleteRound(roundId: string) {
+  try {
+    const session = await getSession();
+    await apiCall(
+      "DELETE",
+      `/rounds/${roundId}`,
+      undefined,
+      session?.accessToken
+    );
+    revalidatePath("/administracion/ligas");
+  } catch {
+    console.error("Fallo al eliminar una ronda.");
   }
 }
