@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 import {
   AddLeagueActionResponse,
   AddLeagueFormData,
+  AddRoundActionResponse,
+  AddRoundFormData,
   CreatePredictionActionResponse,
   CreatePredictionFormData,
   UpdateUserActionResponse,
@@ -221,5 +223,46 @@ export async function deleteLeague(leagueId: string) {
     revalidatePath("/administracion/ligas");
   } catch {
     console.error("Fallo al eliminar una liga");
+  }
+}
+
+export async function createRound(
+  leagueId: string,
+  prevState: AddRoundActionResponse | null,
+  formData: FormData
+): Promise<AddRoundActionResponse> {
+  try {
+    const rawData: AddRoundFormData = {
+      description: formData.get("description") as unknown as string,
+    };
+
+    const isValid = rawData.description.length > 4;
+
+    if (!isValid) {
+      return {
+        success: false,
+        message: "Corregi los errores",
+        errors: {
+          description: ["La descripción debe tener al menos 4 caracteres."],
+        },
+        inputs: rawData,
+      };
+    }
+
+    const payload = { leagueId, description: rawData.description };
+
+    const session = await getSession();
+    await apiCall("POST", "/rounds", payload, session?.accessToken);
+    revalidatePath("/administracion/ligas");
+
+    return {
+      success: true,
+      message: "Ronda Creada correctamente!",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Algo ha salido mal.",
+    };
   }
 }

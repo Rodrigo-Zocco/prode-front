@@ -1,9 +1,11 @@
-import { fetchLeagues } from "@/lib/data";
+import { fetchLeagues, fetchRounds } from "@/lib/data";
 import LeaguesTable from "./leagues-table";
 import AddLeagueForm from "./add-league-form";
+import AdminRoundslayout from "../admin-rounds-layout";
 
 export default async function AdminLeaguesLayout() {
   const leagues = await fetchLeagues();
+  const rounds = await fetchRounds();
 
   return (
     <>
@@ -13,6 +15,7 @@ export default async function AdminLeaguesLayout() {
       <div className="space-y-4">
         <AddLeagueForm />
         <LeaguesTable leagues={leagues} />
+        <AdminRoundslayout leagues={leagues} rounds={rounds} />
       </div>
     </>
   );

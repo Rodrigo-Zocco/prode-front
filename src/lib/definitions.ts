@@ -52,11 +52,15 @@ interface Prediction {
   matchId: string;
 }
 
-interface Round {
+export interface Round {
   id: string;
   description: string;
+  resultsCalculated: boolean;
   matches: Match[];
+  createdAt: Date;
+  updatedAt: Date;
   roundResults?: RoundResults[];
+  leagueId?: string;
 }
 
 export interface Result {

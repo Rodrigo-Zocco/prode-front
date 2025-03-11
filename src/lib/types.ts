@@ -39,3 +39,16 @@ export interface AddLeagueActionResponse {
   };
   inputs?: AddLeagueFormData;
 }
+
+export interface AddRoundFormData {
+  description: string;
+}
+
+export interface AddRoundActionResponse {
+  success: boolean;
+  message: string;
+  errors?: {
+    [K in keyof AddRoundFormData]?: string[];
+  };
+  inputs?: AddRoundFormData;
+}
