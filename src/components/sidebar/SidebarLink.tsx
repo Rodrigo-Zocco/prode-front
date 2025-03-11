@@ -16,7 +16,7 @@ export default function SidebarLink({
 }) {
   const pathName = usePathname();
 
-  const adminLabels = ["LIGAS Y RONDAS", "EQUIPOS Y RESULTADOS"];
+  const adminLabels = ["EQUIPOS", "LIGAS Y PARTIDOS"];
 
   return (
     <li className={className}>

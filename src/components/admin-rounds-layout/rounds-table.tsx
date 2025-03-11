@@ -1,5 +1,5 @@
 import { Round } from "@/lib/definitions";
-import { DeleteRound } from "./buttons";
+import { DeleteRound, RoundMatchesLink } from "./buttons";
 
 export default function RoundsTable({
   leagueName,
@@ -43,7 +43,10 @@ export default function RoundsTable({
                   {round.resultsCalculated ? "Calculados" : "Sin calcular"}
                 </td>
                 <td className="border border-custom-gray-obscure p-2">
-                  <DeleteRound id={round.id} />
+                  <div className="space-x-1  space-y-1 md:flex md:space-y-0">
+                    <RoundMatchesLink roundId={round.id}/>
+                    <DeleteRound id={round.id} />
+                  </div>
                 </td>
               </tr>
             ))

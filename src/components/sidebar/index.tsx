@@ -46,14 +46,14 @@ export default async function Sidebar() {
     links.push(
       {
         id: 6,
-        label: "LIGAS Y RONDAS",
-        href: "/administracion/ligas",
+        label: "EQUIPOS",
+        href: "/administracion/equipos",
         disabled: false,
       },
       {
         id: 7,
-        label: "EQUIPOS Y RESULTADOS",
-        href: "/administracion/equipos",
+        label: "LIGAS Y PARTIDOS",
+        href: "/administracion/ligas",
         disabled: false,
       }
     );

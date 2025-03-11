@@ -19,7 +19,7 @@ export default async function AdminLeaguesLayout() {
           <LeaguesTable leagues={leagues} />
         </div>
         <div>
-          <h1 className="text-2xl text-custom-yellow-light font-bold">RONDAS</h1>
+          <h1 className="text-2xl text-custom-yellow-light font-bold">RONDAS Y PARTIDOS</h1>
           <AdminRoundslayout leagues={leagues} rounds={rounds} />
         </div>
       </div>
