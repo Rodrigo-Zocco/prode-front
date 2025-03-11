@@ -10,12 +10,18 @@ export default async function AdminLeaguesLayout() {
   return (
     <>
       <h1 className="my-4 text-3xl text-custom-green-fluor font-bold text-center">
-        ADMINISTRACION LIGAS
+        ADMINISTRACION
       </h1>
-      <div className="space-y-4">
-        <AddLeagueForm />
-        <LeaguesTable leagues={leagues} />
-        <AdminRoundslayout leagues={leagues} rounds={rounds} />
+      <div className="space-y-20 mb-20">
+        <div>
+        <h1 className="text-2xl text-custom-yellow-light font-bold">LIGAS</h1>
+          <AddLeagueForm />
+          <LeaguesTable leagues={leagues} />
+        </div>
+        <div>
+          <h1 className="text-2xl text-custom-yellow-light font-bold">RONDAS</h1>
+          <AdminRoundslayout leagues={leagues} rounds={rounds} />
+        </div>
       </div>
     </>
   );

@@ -4,7 +4,13 @@ import { createRound } from "@/lib/actions";
 import { AddRoundActionResponse } from "@/lib/types";
 import { useActionState } from "react";
 
-export default function AddRoundForm({ leagueId }: { leagueId: string }) {
+export default function AddRoundForm({
+  leagueId,
+  leagueName,
+}: {
+  leagueId: string;
+  leagueName: string;
+}) {
   const initialState: AddRoundActionResponse = {
     success: false,
     message: "",
@@ -57,7 +63,7 @@ export default function AddRoundForm({ leagueId }: { leagueId: string }) {
         aria-disabled={isPending}
         disabled={isPending}
       >
-        {isPending ? "Cargando..." : "Agregar Ronda"}
+        {isPending ? "Cargando..." : `Agregar Ronda en ${leagueName}`}
       </button>
     </form>
   );

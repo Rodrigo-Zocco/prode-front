@@ -27,28 +27,25 @@ export default function AdminRoundslayout({
   );
 
   return (
-    <div>
-      {" "}
-      <h1 className="my-4 text-3xl text-custom-green-fluor font-bold text-center">
-        ADMINISTRACION RONDAS
-      </h1>
-      <div className="space-y-4">
-        <Dropdown
-          items={dropdownLeaguesValues}
-          placeholder="Elegí una Liga"
-          onChange={(leagueId) => setSelectedLeagueId(leagueId)}
-        />
+    <div className="space-y-2">
+      <Dropdown
+        items={dropdownLeaguesValues}
+        placeholder="Elegí una Liga"
+        onChange={(leagueId) => setSelectedLeagueId(leagueId)}
+      />
 
-        {selectedLeague && (
-          <>
-            <AddRoundForm leagueId={selectedLeague.id} />
-            <RoundsTable
-              leagueName={selectedLeague!.name}
-              rounds={selectedRounds}
-            />
-          </>
-        )}
-      </div>
+      {selectedLeague && (
+        <>
+          <AddRoundForm
+            leagueId={selectedLeague.id}
+            leagueName={selectedLeague.name}
+          />
+          <RoundsTable
+            leagueName={selectedLeague.name}
+            rounds={selectedRounds}
+          />
+        </>
+      )}
     </div>
   );
 }
