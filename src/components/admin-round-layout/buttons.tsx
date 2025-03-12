@@ -2,6 +2,7 @@ import { MatchStatus } from "@/lib/definitions";
 import { deleteMatch } from "@/lib/actions";
 import TrashIcon from "../icons/TrashIcon";
 import Ball from "../icons/Ball";
+import Link from "next/link";
 
 export default function MatchState({ status }: { status: MatchStatus }) {
   const translatedStatus = {
@@ -26,7 +27,7 @@ export function DeleteMatch({ id }: { id: string }) {
 
   return (
     <form action={deleteMatchWithId}>
-      <button className="flex rounded-md border p-2 hover:bg-red-500">
+      <button className="flex rounded-md border p-1 bg-red-500 hover:bg-red-700">
         <p>Eliminar</p>
         <TrashIcon className="ml-2" />
       </button>
@@ -42,5 +43,16 @@ export function GenerateResults({ roundId }: { roundId: string }) {
         <Ball className="ml-2" />
       </button>
     </form>
+  );
+}
+
+export function EditMatch({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/administracion/partidos/${id}/editar`}
+      className="rounded-md border p-1 bg-green-500 hover:bg-custom-green-alive"
+    >
+      Editar
+    </Link>
   );
 }

@@ -2,7 +2,7 @@ import { fetchRoundWithMatches } from "@/lib/data";
 import BackButton from "./back-button";
 import Star from "../icons/Star";
 import StarOff from "../icons/StarOff";
-import MatchState, { DeleteMatch, GenerateResults } from "./buttons";
+import MatchState, { DeleteMatch, EditMatch, GenerateResults } from "./buttons";
 
 export default async function AdminRoundLayout({
   roundId,
@@ -73,9 +73,7 @@ export default async function AdminRoundLayout({
                     </div>
                   </td>
                   <td className="text-center border border-custom-gray-obscure p-2 bg-custom-white">
-                    <button className="text-custom-white bg-custom-green-alive border-custom-green-fluor text-sm font-semibold border-2 rounded-lg px-2">
-                      Editar
-                    </button>
+                    <EditMatch id={match.id} />
                   </td>
                   <td className="text-center border border-custom-gray-obscure p-2 bg-custom-white">
                     <DeleteMatch id={match.id} />
