@@ -342,3 +342,18 @@ export async function deleteTeam(teamId: number) {
     console.error("Fallo al eliminar un equipo.");
   }
 }
+
+export async function deleteMatch(matchId: string) {
+  try {
+    const session = await getSession();
+    await apiCall(
+      "DELETE",
+      `/matches/${matchId}`,
+      undefined,
+      session?.accessToken
+    );
+    revalidatePath("/administracion/rondas");
+  } catch {
+    console.error("Fallo al eliminar un partido");
+  }
+}

@@ -140,3 +140,20 @@ export async function fetchTeams() {
     throw new Error("Failed to fetch Teams data.");
   }
 }
+
+export async function fetchRoundWithMatches(roundId: string) {
+  try {
+    const session = await getSession();
+
+    const roundWithMatches = await apiCall<Round>(
+      "GET",
+      `/rounds/${roundId}`,
+      undefined,
+      session?.accessToken
+    );
+    return roundWithMatches;
+  } catch (error) {
+    console.error("API Error:", error);
+    throw new Error("Failed to fetch Round with matches data.");
+  }
+}
