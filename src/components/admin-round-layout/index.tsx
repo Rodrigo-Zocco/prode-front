@@ -97,7 +97,7 @@ export default async function AdminRoundLayout({
         ) : (
           <div className="flex justify-center space-x-2">
             <AddMatchModal roundId={round.id} teams={teams} />
-            <GenerateResults roundId={round.id} />
+            {!round.resultsCalculated && <GenerateResults roundId={round.id} />}
           </div>
         )}
       </div>

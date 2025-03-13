@@ -1,5 +1,5 @@
 import { MatchStatus } from "@/lib/definitions";
-import { deleteMatch } from "@/lib/actions";
+import { deleteMatch, generateRoundResults } from "@/lib/actions";
 import TrashIcon from "../icons/TrashIcon";
 import Ball from "../icons/Ball";
 import Link from "next/link";
@@ -36,8 +36,10 @@ export function DeleteMatch({ id }: { id: string }) {
 }
 
 export function GenerateResults({ roundId }: { roundId: string }) {
+  const generateResultsWithRoundId = generateRoundResults.bind(null, roundId);
+
   return (
-    <form>
+    <form action={generateResultsWithRoundId}>
       <button className="flex rounded-md border p-2 bg-custom-yellow-light font-semibold hover:bg-custom-green-fluor">
         <p>Generar resultados</p>
         <Ball className="ml-2" />

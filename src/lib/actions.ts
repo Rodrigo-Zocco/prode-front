@@ -500,3 +500,18 @@ export async function addMatch(
     };
   }
 }
+
+export async function generateRoundResults(roundId: string) {
+  try {
+    const session = await getSession();
+    await apiCall(
+      "POST",
+      `/results/${roundId}`,
+      undefined,
+      session?.accessToken
+    );
+    revalidatePath("/administracion/rondas");
+  } catch {
+    console.error("Fallo al generar resultados");
+  }
+}
