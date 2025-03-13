@@ -4,7 +4,7 @@ import { editMatch } from "@/lib/actions";
 import { Match } from "@/lib/definitions";
 import { EditMatchActionResponse } from "@/lib/types";
 import { useActionState } from "react";
-import BackButton from "../admin-round-layout/back-button";
+import BackButton from "../admin-round-layout/client-buttons";
 
 export default function EditMatchForm({ match }: { match: Match }) {
   const initialState: EditMatchActionResponse = {

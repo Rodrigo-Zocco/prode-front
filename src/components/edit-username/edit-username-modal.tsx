@@ -27,7 +27,7 @@ export default function EditUsernameModal({
       <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
         <div
           className="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto"
-          id="background-prode"
+          id="background"
         >
           <div className="flex items-center justify-between py-2 px-4 text-custom-white">
             <h2 className="text-lg font-medium">Cambiar nombre de usuario</h2>

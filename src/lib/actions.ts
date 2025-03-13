@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 import {
   AddLeagueActionResponse,
   AddLeagueFormData,
+  AddMatchActionResponse,
+  AddMatchFormData,
   AddRoundActionResponse,
   AddRoundFormData,
   AddTeamActionResponse,
@@ -402,7 +404,6 @@ export async function editMatch(
   formData: FormData
 ): Promise<EditMatchActionResponse> {
   try {
-
     const rawData: EditMatchFormData = {
       status: formData.get("status") as unknown as string,
       highlighted:
@@ -435,6 +436,67 @@ export async function editMatch(
     return {
       success: false,
       message: "Ocurrió un error al editar el partido.",
+    };
+  }
+}
+
+const homeTeamMessage = "Elige al equipo local.";
+const awayTeamMessage = "Elige al equipo visitante.";
+const AddMatchSchema = z
+  .object({
+    highlighted: z.coerce.boolean(),
+    homeTeamId: z.coerce
+      .number({
+        invalid_type_error: homeTeamMessage,
+        required_error: homeTeamMessage,
+      })
+      .int(homeTeamMessage),
+    awayTeamId: z.coerce
+      .number({
+        invalid_type_error: awayTeamMessage,
+        required_error: awayTeamMessage,
+      })
+      .int(awayTeamMessage),
+  })
+  .strict();
+
+export async function addMatch(
+  roundId: string,
+  prevState: AddMatchActionResponse | null,
+  formData: FormData
+): Promise<AddMatchActionResponse> {
+  try {
+    const rawData: AddMatchFormData = {
+      highlighted: (formData.get("highlighted") as string) === "true",
+      homeTeamId: formData.get("homeTeamId") as unknown as number,
+      awayTeamId: formData.get("awayTeamId") as unknown as number,
+    };
+
+    const validatedData = AddMatchSchema.safeParse(rawData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        errors: validatedData.error.flatten().fieldErrors,
+        message: "Corrige los errores.",
+        inputs: rawData,
+      };
+    }
+
+    const { data } = validatedData;
+    const payload = { ...data, roundId };
+
+    const session = await getSession();
+    await apiCall("POST", "/matches", payload, session?.accessToken);
+    revalidatePath("/administracion/rondas");
+    return {
+      success: true,
+      message: "Partido creado con exito.",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Fallo al crear el partido.",
     };
   }
 }

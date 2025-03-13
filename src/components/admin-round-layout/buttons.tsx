@@ -38,7 +38,7 @@ export function DeleteMatch({ id }: { id: string }) {
 export function GenerateResults({ roundId }: { roundId: string }) {
   return (
     <form>
-      <button className="flex rounded-md border p-2 bg-custom-green-light hover:bg-custom-green-fluor">
+      <button className="flex rounded-md border p-2 bg-custom-yellow-light font-semibold hover:bg-custom-green-fluor">
         <p>Generar resultados</p>
         <Ball className="ml-2" />
       </button>

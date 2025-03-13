@@ -1,5 +1,5 @@
-import { fetchRoundWithMatches } from "@/lib/data";
-import BackButton from "./back-button";
+import { fetchRoundWithMatches, fetchTeams } from "@/lib/data";
+import BackButton, { AddMatchModal } from "./client-buttons";
 import Star from "../icons/Star";
 import StarOff from "../icons/StarOff";
 import MatchState, { DeleteMatch, EditMatch, GenerateResults } from "./buttons";
@@ -10,6 +10,7 @@ export default async function AdminRoundLayout({
   roundId: string;
 }) {
   const round = await fetchRoundWithMatches(roundId);
+  const teams = await fetchTeams();
 
   return (
     <main className="my-4">
@@ -94,7 +95,8 @@ export default async function AdminRoundLayout({
             </p>
           </div>
         ) : (
-          <div className="flex justify-center">
+          <div className="flex justify-center space-x-2">
+            <AddMatchModal roundId={round.id} teams={teams} />
             <GenerateResults roundId={round.id} />
           </div>
         )}

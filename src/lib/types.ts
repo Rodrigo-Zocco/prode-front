@@ -82,3 +82,18 @@ export interface EditMatchActionResponse {
   };
   inputs?: EditMatchFormData;
 }
+
+export interface AddMatchFormData {
+  highlighted: boolean;
+  homeTeamId: number;
+  awayTeamId: number;
+}
+
+export interface AddMatchActionResponse {
+  success: boolean;
+  message: string;
+  errors?: {
+    [K in keyof AddMatchFormData]?: string[];
+  };
+  inputs?: AddMatchFormData;
+}
