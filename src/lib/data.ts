@@ -2,6 +2,7 @@ import { getSession } from "./auth";
 import {
   Award,
   League,
+  Match,
   MatchStatus,
   Pagination,
   Round,
@@ -155,5 +156,22 @@ export async function fetchRoundWithMatches(roundId: string) {
   } catch (error) {
     console.error("API Error:", error);
     throw new Error("Failed to fetch Round with matches data.");
+  }
+}
+
+export async function fetchMatch(matchId: string) {
+  try {
+    const session = await getSession();
+
+    const roundWithMatches = await apiCall<Match>(
+      "GET",
+      `/matches/${matchId}`,
+      undefined,
+      session?.accessToken
+    );
+    return roundWithMatches;
+  } catch (error) {
+    console.error("API Error:", error);
+    throw new Error("Failed to fetch match data.");
   }
 }

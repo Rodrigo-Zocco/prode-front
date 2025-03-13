@@ -66,3 +66,19 @@ export interface AddTeamActionResponse {
   };
   inputs?: AddTeamFormData;
 }
+
+export interface EditMatchFormData {
+  status?: string;
+  highlighted?: boolean;
+  homeTeamScore?: number;
+  awayTeamScore?: number;
+}
+
+export interface EditMatchActionResponse {
+  success: boolean;
+  message: string;
+  errors?: {
+    [K in keyof EditMatchFormData]?: string[];
+  };
+  inputs?: EditMatchFormData;
+}

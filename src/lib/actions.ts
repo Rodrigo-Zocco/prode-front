@@ -14,9 +14,12 @@ import {
   AddTeamFormData,
   CreatePredictionActionResponse,
   CreatePredictionFormData,
+  EditMatchActionResponse,
+  EditMatchFormData,
   UpdateUserActionResponse,
   UpdateUserFormData,
 } from "./types";
+import { MatchStatus } from "./definitions";
 
 const createPredicctionError = "Mínimo 0 y Máximo 20 goles.";
 
@@ -355,5 +358,83 @@ export async function deleteMatch(matchId: string) {
     revalidatePath("/administracion/rondas");
   } catch {
     console.error("Fallo al eliminar un partido");
+  }
+}
+
+const EditMatchSchema = z
+  .object({
+    highlighted: z.coerce.boolean().optional(),
+    homeTeamScore: z.coerce
+      .number({
+        required_error: "Faltan los goles del local.",
+        invalid_type_error:
+          "Los goles del local debe ser un numero entre 0 y 20.",
+      })
+      .int()
+      .nonnegative()
+      .lte(20)
+      .optional(),
+    awayTeamScore: z.coerce
+      .number({
+        required_error: "Faltan los goles del visitante.",
+        invalid_type_error:
+          "Los goles del visitante debe ser un numero entre 0 y 20.",
+      })
+      .int()
+      .nonnegative()
+      .lte(20)
+      .optional(),
+    status: z
+      .enum([
+        MatchStatus.Finished,
+        MatchStatus.Ongoing,
+        MatchStatus.Predictable,
+        MatchStatus.Suspended,
+        MatchStatus.Waiting,
+      ])
+      .optional(),
+  })
+  .strict();
+
+export async function editMatch(
+  matchId: string,
+  prevState: EditMatchActionResponse | null,
+  formData: FormData
+): Promise<EditMatchActionResponse> {
+  try {
+
+    const rawData: EditMatchFormData = {
+      status: formData.get("status") as unknown as string,
+      highlighted:
+        (formData.get("highlighted") as unknown as string) === "true",
+      homeTeamScore: formData.get("homeTeamScore") as unknown as number,
+      awayTeamScore: formData.get("awayTeamScore") as unknown as number,
+    };
+
+    const validatedData = EditMatchSchema.safeParse(rawData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        errors: validatedData.error.flatten().fieldErrors,
+        message: "Corrige los errores.",
+      };
+    }
+
+    const { data } = validatedData;
+    const payload = { ...data, matchId };
+
+    const session = await getSession();
+    await apiCall("PUT", "/matches", payload, session?.accessToken);
+    revalidatePath("/administracion/partidos");
+    return {
+      success: true,
+      message: "Partido editado con exito.",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Ocurrió un error al editar el partido.",
+    };
   }
 }

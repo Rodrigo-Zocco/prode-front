@@ -1,3 +1,4 @@
+import EditMatchLayout from "@/components/edit-match";
 import Loading from "@/components/ui/loading";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -14,11 +15,11 @@ export default async function Page({
     redirect("/");
   }
 
-  const partidoId = (await params).partidoId;
+  const matchId = (await params).partidoId;
 
   return (
     <Suspense fallback={<Loading />}>
-      <div>PARTIDO ID: {partidoId}</div>
+      <EditMatchLayout matchId={matchId} />
     </Suspense>
   );
 }
